@@ -3,8 +3,20 @@ const Friends = require('./friendsModel');
 
 describe('friendsModel', () => {
   beforeEach(async () => {
-    await db('friends').truncate();
-    await Friends.insert({ name: 'Monica' });
+    await db('friends').truncate().then(() => {
+      Friends.insert({ name: 'Monica' });
+    });
+  });
+
+  // afterEach(async () => {
+  //   await db('friends').truncate();
+  // });
+
+  describe('getAll', () => {
+    it('should return the list of friends', async () => {
+      const friends = await Friends.getAll();
+      expect(friends).toHaveLength(1);
+    });
   });
 
   describe('insert', () => {
